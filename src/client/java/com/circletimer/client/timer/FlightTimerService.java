@@ -25,6 +25,7 @@ public class FlightTimerService {
     private int currentCheckpointFromZero = 0;
     private int lapsCompleted = 0;
     private long lastCrossMillis = 0L;
+    private boolean finishLocked = false;
 
     private boolean hasPosition = false;
     private double lastX;
@@ -114,6 +115,7 @@ public class FlightTimerService {
         currentCheckpointFromZero = 0;
         lapsCompleted = 0;
         lastCrossMillis = 0L;
+        finishLocked = false;
         hasPosition = false;
         wasInsideStart = false;
         zoneManager.setBestLapMillis(0L);
@@ -165,12 +167,17 @@ public class FlightTimerService {
         return runActive;
     }
 
+    public boolean isFinishLocked() {
+        return finishLocked;
+    }
+
     public String getStateDebug() {
         return "run=" + runActive
             + ", total=" + TimeFormat.format(totalMillis)
             + ", current=" + TimeFormat.format(currentLapMillis)
             + ", lap=" + currentCheckpointFromZero + "/" + zoneManager.getTargetLapCount()
-            + ", done=" + lapsCompleted;
+            + ", done=" + lapsCompleted
+            + ", locked=" + finishLocked;
     }
 
     private ZoneData resolveStartZone(List<ZoneData> zones) {
@@ -189,6 +196,9 @@ public class FlightTimerService {
 
     private void onStartCircleCross(long now) {
         if (!runActive) {
+            if (finishLocked) {
+                return;
+            }
             runActive = true;
             runStartMillis = now;
             lapStartMillis = now;
@@ -209,6 +219,7 @@ public class FlightTimerService {
         if (currentCheckpointFromZero >= zoneManager.getTargetLapCount()) {
             runActive = false;
             totalMillis = Math.max(0L, now - runStartMillis);
+            finishLocked = true;
         }
     }
 

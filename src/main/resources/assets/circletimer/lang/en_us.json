@@ -1,10 +1,10 @@
 {
   "hud.circletimer.zones": "zones: %1$s | target: %2$s",
-  "hud.circletimer.start": "start: #%1$s | lap: %2$s/%3$s",
+  "hud.circletimer.start": "track: #%1$s | lap: %2$s/%3$s",
   "hud.circletimer.total": "total: %1$s",
   "hud.circletimer.best": "best: %1$s",
   "hud.circletimer.current": "current: %1$s",
-  "hud.circletimer.no_start": "start zone is not set",
+  "hud.circletimer.no_start": "track is not selected",
 
   "screen.circletimer.settings.title": "HUD Settings",
   "screen.circletimer.settings.hint": "Drag the HUD block with mouse. Total timer is x2.",
@@ -42,9 +42,9 @@
   "message.circletimer.zone_removed": "Zone #%1$s removed. Run reset.",
   "message.circletimer.target_show": "Finish target laps: %1$s",
   "message.circletimer.target_set": "Finish target set: %1$s",
-  "message.circletimer.start_missing": "Start zone is not set.",
-  "message.circletimer.start_show": "Start zone: #%1$s (highlight 10s)",
-  "message.circletimer.start_set": "Start zone set: #%1$s. Run reset.",
+  "message.circletimer.start_missing": "Track is not selected.",
+  "message.circletimer.start_show": "Track: #%1$s (highlight 10s)",
+  "message.circletimer.start_set": "Track set: #%1$s. Run reset.",
   "message.circletimer.run_reset": "Run state reset.",
   "message.circletimer.run_stopped": "Timer stopped."
 }

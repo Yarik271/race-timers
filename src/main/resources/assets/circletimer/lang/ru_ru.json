@@ -1,10 +1,10 @@
 {
   "hud.circletimer.zones": "зоны: %1$s | цель: %2$s",
-  "hud.circletimer.start": "старт: #%1$s | круг: %2$s/%3$s",
+  "hud.circletimer.start": "трасса: #%1$s | круг: %2$s/%3$s",
   "hud.circletimer.total": "общ: %1$s",
   "hud.circletimer.best": "луч: %1$s",
   "hud.circletimer.current": "тек: %1$s",
-  "hud.circletimer.no_start": "стартовый круг не задан",
+  "hud.circletimer.no_start": "трасса не выбрана",
 
   "screen.circletimer.settings.title": "Настройки HUD",
   "screen.circletimer.settings.hint": "Перетащи HUD мышкой. Общий таймер увеличен x2.",
@@ -42,9 +42,9 @@
   "message.circletimer.zone_removed": "Круг #%1$s удален. Забег сброшен.",
   "message.circletimer.target_show": "Цель кругов для финиша: %1$s",
   "message.circletimer.target_set": "Цель кругов установлена: %1$s",
-  "message.circletimer.start_missing": "Стартовый круг не установлен.",
-  "message.circletimer.start_show": "Стартовый круг: #%1$s (подсветка 10с)",
-  "message.circletimer.start_set": "Стартовый круг установлен: #%1$s. Забег сброшен.",
+  "message.circletimer.start_missing": "Трасса не выбрана.",
+  "message.circletimer.start_show": "Трасса: #%1$s (подсветка 10с)",
+  "message.circletimer.start_set": "Трасса установлена: #%1$s. Забег сброшен.",
   "message.circletimer.run_reset": "Состояние забега сброшено.",
   "message.circletimer.run_stopped": "Таймер остановлен."
 }

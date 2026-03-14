@@ -77,10 +77,10 @@ public final class CircleCommand {
                         .executes(ctx -> setTarget(ctx, zoneManager))
                     )
                 )
-                .then(ClientCommandManager.literal("start")
-                    .executes(ctx -> showStart(ctx, zoneManager, timerService))
+                .then(ClientCommandManager.literal("set")
+                    .executes(ctx -> showTrack(ctx, zoneManager, timerService))
                     .then(ClientCommandManager.argument("id", IntegerArgumentType.integer(1))
-                        .executes(ctx -> setStart(ctx, zoneManager, timerService))
+                        .executes(ctx -> setTrack(ctx, zoneManager, timerService))
                     )
                 )
                 .then(ClientCommandManager.literal("remove")
@@ -243,7 +243,7 @@ public final class CircleCommand {
         return 1;
     }
 
-    private static int showStart(
+    private static int showTrack(
         CommandContext<FabricClientCommandSource> ctx,
         ZoneManager zoneManager,
         FlightTimerService timerService
@@ -258,7 +258,7 @@ public final class CircleCommand {
         return 1;
     }
 
-    private static int setStart(
+    private static int setTrack(
         CommandContext<FabricClientCommandSource> ctx,
         ZoneManager zoneManager,
         FlightTimerService timerService

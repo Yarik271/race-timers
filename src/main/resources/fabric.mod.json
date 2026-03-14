@@ -3,9 +3,9 @@
 	"id": "circletimer",
 	"version": "${version}",
 	"name": "Race Timers",
-	"description": "Client-side race timer HUD for elytra, boats, and any route-based runs.",
+	"description": "Client-side race timer HUD for elytra, boats, and any route-based runs. Built with AlinLib.",
 	"authors": [
-		"arikm"
+		"YarilaFox"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
