@@ -1,0 +1,35 @@
+{
+	"schemaVersion": 1,
+	"id": "circletimer",
+	"version": "${version}",
+	"name": "Race Timers",
+	"description": "Client-side race timer HUD for elytra, boats, and any route-based runs.",
+	"authors": [
+		"arikm"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/circletimer/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"com.circletimer.client.CircleTimerClient"
+		],
+		"modmenu": [
+			"com.circletimer.client.integration.CircleModMenuApi"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.18.2",
+		"minecraft": "~1.21.8",
+		"java": ">=21",
+		"fabric-api": "*",
+		"alinlib": "*"
+	},
+	"suggests": {
+		"modmenu": "*"
+	}
+}
