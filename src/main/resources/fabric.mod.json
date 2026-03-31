@@ -8,8 +8,9 @@
 		"YarilaFox"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/mod/race-timers",
+		"issues": "https://github.com/Yarik271/race-timers/issues",
+		"sources": "https://github.com/Yarik271/race-timers"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/circletimer/icon.png",

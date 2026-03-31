@@ -124,8 +124,9 @@ public class HudDragSettingsScreen extends Screen {
         int totalHeight = this.textRenderer.fontHeight * 2 + 2;
 
         int anchorX = getAnchorX(hud);
-        context.getMatrices().pushMatrix();
-        context.getMatrices().scale(baseScale, baseScale);
+        Object stack = MatrixCompat.getStack(context);
+        MatrixCompat.push(stack);
+        MatrixCompat.scale(stack, baseScale, baseScale);
 
         int scaledAnchorX = (int) (anchorX / baseScale);
         int y = (int) (hud.offsetY / baseScale);
@@ -133,17 +134,18 @@ public class HudDragSettingsScreen extends Screen {
         drawAligned(context, line1, scaledAnchorX, y, hud.colorLabel, hud);
         y += lineH;
 
-        context.getMatrices().pushMatrix();
-        context.getMatrices().scale(2.0f, 2.0f);
+        Object totalStack = MatrixCompat.getStack(context);
+        MatrixCompat.push(totalStack);
+        MatrixCompat.scale(totalStack, 2.0f, 2.0f);
         drawAligned(context, line2, (int) (scaledAnchorX / 2.0f), (int) (y / 2.0f), hud.colorTotal, hud);
-        context.getMatrices().popMatrix();
+        MatrixCompat.pop(totalStack);
         y += totalHeight;
 
         drawAligned(context, line3, scaledAnchorX, y, hud.colorBest, hud);
         y += lineH;
         drawAligned(context, line4, scaledAnchorX, y, hud.colorCurrent, hud);
 
-        context.getMatrices().popMatrix();
+        MatrixCompat.pop(stack);
     }
 
     @Override

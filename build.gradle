@@ -71,11 +71,24 @@ java {
 	targetCompatibility = JavaVersion.VERSION_21
 }
 
+tasks.withType(AbstractArchiveTask).configureEach {
+	preserveFileTimestamps = false
+	reproducibleFileOrder = true
+}
+
 jar {
 	inputs.property "archivesName", project.base.archivesName
 
 	from("LICENSE") {
 		rename { "${it}_${inputs.properties.archivesName}"}
+	}
+
+	manifest {
+		attributes(
+			"Implementation-Title": "Race Timers",
+			"Implementation-Version": project.version,
+			"Implementation-Vendor": "YarilaFox"
+		)
 	}
 }
 

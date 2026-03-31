@@ -54,8 +54,9 @@ public class CircleHudRenderer implements HudRenderCallback {
         String bestText = Text.translatable("hud.circletimer.best", TimeFormat.format(timerService.getBestLapMillis())).getString();
         String currentText = Text.translatable("hud.circletimer.current", TimeFormat.format(timerService.getCurrentLapMillis())).getString();
 
-        drawContext.getMatrices().pushMatrix();
-        drawContext.getMatrices().scale((float) hud.scale, (float) hud.scale);
+        Object stack = MatrixCompat.getStack(drawContext);
+        MatrixCompat.push(stack);
+        MatrixCompat.scale(stack, (float) hud.scale, (float) hud.scale);
 
         int scaledAnchorX = (int) (anchorX / hud.scale);
         int y = (int) (topY / hud.scale);
@@ -81,14 +82,15 @@ public class CircleHudRenderer implements HudRenderCallback {
         y += lineStep;
         drawAligned(tr, drawContext, hud, currentText, scaledAnchorX, y, hud.colorCurrent);
 
-        drawContext.getMatrices().popMatrix();
+        MatrixCompat.pop(stack);
     }
 
     private void renderNoStart(DrawContext drawContext, TextRenderer tr, HudSettingsData hud, int anchorX, int topY, String circlesText) {
         String noStartText = Text.translatable("hud.circletimer.no_start").getString();
 
-        drawContext.getMatrices().pushMatrix();
-        drawContext.getMatrices().scale((float) hud.scale, (float) hud.scale);
+        Object stack = MatrixCompat.getStack(drawContext);
+        MatrixCompat.push(stack);
+        MatrixCompat.scale(stack, (float) hud.scale, (float) hud.scale);
 
         int scaledAnchorX = (int) (anchorX / hud.scale);
         int y = (int) (topY / hud.scale);
@@ -105,7 +107,7 @@ public class CircleHudRenderer implements HudRenderCallback {
         drawAligned(tr, drawContext, hud, circlesText, scaledAnchorX, y, hud.colorLabel);
         drawAligned(tr, drawContext, hud, noStartText, scaledAnchorX, y + lineStep, hud.colorLabel);
 
-        drawContext.getMatrices().popMatrix();
+        MatrixCompat.pop(stack);
     }
 
     private static int anchorX(int screenWidth, HudSettingsData hud) {
@@ -126,14 +128,15 @@ public class CircleHudRenderer implements HudRenderCallback {
     }
 
     private static void drawAlignedScaled(TextRenderer tr, DrawContext dc, HudSettingsData hud, String text, int anchorX, int y, int color, float scale) {
-        dc.getMatrices().pushMatrix();
-        dc.getMatrices().scale(scale, scale);
+        Object stack = MatrixCompat.getStack(dc);
+        MatrixCompat.push(stack);
+        MatrixCompat.scale(stack, scale, scale);
 
         int scaledAnchor = (int) (anchorX / scale);
         int scaledY = (int) (y / scale);
         drawAligned(tr, dc, hud, text, scaledAnchor, scaledY, color);
 
-        dc.getMatrices().popMatrix();
+        MatrixCompat.pop(stack);
     }
 
     private static int alignedTextX(HudSettingsData hud, int anchorX, int width) {
