@@ -31,6 +31,7 @@ public class ZoneManager {
     public ZoneManager(CircleConfigStore configStore) {
         this.configStore = configStore;
         this.configData = configStore.load();
+        ensureGlobalHudDefaults();
         this.lastSaveAt = System.currentTimeMillis();
     }
 
@@ -42,6 +43,7 @@ public class ZoneManager {
         currentWorldKey = worldKey;
         currentProfile = configData.profiles.computeIfAbsent(worldKey, key -> new WorldProfileData());
         ensureDefaults(currentProfile);
+        migrateLegacyHudIfNeeded(currentProfile);
         pendingPos1 = null;
         pendingPos2 = null;
         markDirty();
@@ -193,11 +195,8 @@ public class ZoneManager {
     }
 
     public HudSettingsData getHudSettings() {
-        if (currentProfile == null) {
-            return HudSettingsData.defaults();
-        }
-        ensureDefaults(currentProfile);
-        return currentProfile.hud;
+        ensureGlobalHudDefaults();
+        return configData.hud;
     }
 
     public Integer getActiveZoneId() {
@@ -298,7 +297,42 @@ public class ZoneManager {
             throw new IllegalStateException("World profile is not selected");
         }
         ensureDefaults(currentProfile);
+        migrateLegacyHudIfNeeded(currentProfile);
         return currentProfile;
+    }
+
+    private void ensureGlobalHudDefaults() {
+        if (configData.hud == null) {
+            configData.hud = HudSettingsData.defaults();
+        } else {
+            sanitizeHud(configData.hud);
+        }
+    }
+
+    private void migrateLegacyHudIfNeeded(WorldProfileData profile) {
+        ensureGlobalHudDefaults();
+        if (profile.hud == null) {
+            return;
+        }
+        HudSettingsData global = configData.hud;
+        HudSettingsData defaults = HudSettingsData.defaults();
+        boolean globalLooksDefault =
+            global.visible == defaults.visible &&
+            global.offsetX == defaults.offsetX &&
+            global.offsetY == defaults.offsetY &&
+            Math.abs(global.scale - defaults.scale) < 1.0e-9 &&
+            global.colorLabel == defaults.colorLabel &&
+            global.colorTotal == defaults.colorTotal &&
+            global.colorBest == defaults.colorBest &&
+            global.colorCurrent == defaults.colorCurrent &&
+            java.util.Objects.equals(global.horizontalAlign, defaults.horizontalAlign) &&
+            global.backgroundAlpha == defaults.backgroundAlpha;
+
+        if (globalLooksDefault) {
+            configData.hud = profile.hud;
+            sanitizeHud(configData.hud);
+            markDirty();
+        }
     }
 
     private static void ensureDefaults(WorldProfileData profile) {

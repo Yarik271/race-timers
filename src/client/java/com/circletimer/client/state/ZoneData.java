@@ -3,6 +3,7 @@ package com.circletimer.client.state;
 import net.minecraft.util.math.BlockPos;
 
 public class ZoneData {
+    private static final double FLAT_HEIGHT_EPSILON = 1.0d;
     public int id;
     public double minX;
     public double minY;
@@ -30,8 +31,19 @@ public class ZoneData {
     }
 
     public boolean contains(double x, double y, double z) {
-        return x >= minX && x <= maxX
-            && y >= minY && y <= maxY
+        boolean inXZ = x >= minX && x <= maxX
             && z >= minZ && z <= maxZ;
+        if (!inXZ) {
+            return false;
+        }
+        // Flat zone works as 2D trigger plane.
+        if (isFlatTrigger()) {
+            return true;
+        }
+        return y >= minY && y <= maxY;
+    }
+
+    public boolean isFlatTrigger() {
+        return Math.abs(maxY - minY) < FLAT_HEIGHT_EPSILON;
     }
 }

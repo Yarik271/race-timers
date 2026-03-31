@@ -1,5 +1,5 @@
 {
-  "hud.circletimer.zones": "zones: %1$s | target: %2$s",
+  "hud.circletimer.zones": "tracks: %1$s | target: %2$s",
   "hud.circletimer.start": "track: #%1$s | lap: %2$s/%3$s",
   "hud.circletimer.total": "total: %1$s",
   "hud.circletimer.best": "best: %1$s",
@@ -28,7 +28,7 @@
   "error.circletimer.zone_not_found": "Zone #%1$s was not found.",
   "error.circletimer.bad_coord": "Invalid coordinate: %1$s",
   "error.circletimer.local_not_supported": "Local ^ coordinates are not supported in client commands.",
-  "error.circletimer.pos_pair_missing": "Set both points first: /circle pos1 and /circle pos2, then /circle create.",
+  "error.circletimer.pos_pair_missing": "Set both points first: /lap pos1 and /lap pos2, then /lap create.",
   "error.circletimer.settings_null": "Settings screen returned null. See log.",
   "error.circletimer.settings_open": "Failed to open settings. See log.",
 
@@ -40,11 +40,19 @@
   "message.circletimer.zone_count": "Zones: %1$s",
   "message.circletimer.zone_line": "#%1$s%2$s [%3$s, %4$s, %5$s] -> [%6$s, %7$s, %8$s]",
   "message.circletimer.zone_removed": "Zone #%1$s removed. Run reset.",
+  "message.circletimer.help.header": "%1$s commands:",
+  "message.circletimer.help.create": "/%1$s <x1> <y1> <z1> <x2> <y2> <z2> - create track",
+  "message.circletimer.help.points": "/%1$s pos1, /%1$s pos2, /%1$s create - create track from 2 points",
+  "message.circletimer.help.set": "/%1$s set <id> - select track",
+  "message.circletimer.help.target": "/%1$s target <count> - set lap target",
+  "message.circletimer.help.run": "/%1$s run reset|stop|status - timer control",
+  "message.circletimer.help.list": "/%1$s list, /%1$s remove <id> - list and remove tracks",
   "message.circletimer.target_show": "Finish target laps: %1$s",
   "message.circletimer.target_set": "Finish target set: %1$s",
   "message.circletimer.start_missing": "Track is not selected.",
   "message.circletimer.start_show": "Track: #%1$s (highlight 10s)",
-  "message.circletimer.start_set": "Track set: #%1$s. Run reset.",
+  "message.circletimer.start_set": "Track set: #%1$s.",
+  "message.circletimer.reset_required": "Race finished. To reset timer use: /lap run reset",
   "message.circletimer.run_reset": "Run state reset.",
   "message.circletimer.run_stopped": "Timer stopped."
 }

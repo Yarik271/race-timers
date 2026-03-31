@@ -1,6 +1,6 @@
 {
-  "hud.circletimer.zones": "зоны: %1$s | цель: %2$s",
-  "hud.circletimer.start": "трасса: #%1$s | круг: %2$s/%3$s",
+  "hud.circletimer.zones": "трассы: %1$s | цель: %2$s",
+  "hud.circletimer.start": "трасса: #%1$s | lap: %2$s/%3$s",
   "hud.circletimer.total": "общ: %1$s",
   "hud.circletimer.best": "луч: %1$s",
   "hud.circletimer.current": "тек: %1$s",
@@ -28,7 +28,7 @@
   "error.circletimer.zone_not_found": "Круг #%1$s не найден.",
   "error.circletimer.bad_coord": "Некорректная координата: %1$s",
   "error.circletimer.local_not_supported": "Локальные координаты ^ в клиентской команде не поддерживаются.",
-  "error.circletimer.pos_pair_missing": "Сначала задай 2 точки: /circle pos1 и /circle pos2, потом /circle create.",
+  "error.circletimer.pos_pair_missing": "Сначала задай 2 точки: /lap pos1 и /lap pos2, потом /lap create.",
   "error.circletimer.settings_null": "Экран настроек вернул null. Смотрите лог.",
   "error.circletimer.settings_open": "Не удалось открыть настройки. Смотрите лог.",
 
@@ -40,11 +40,19 @@
   "message.circletimer.zone_count": "Круги: %1$s",
   "message.circletimer.zone_line": "#%1$s%2$s [%3$s, %4$s, %5$s] -> [%6$s, %7$s, %8$s]",
   "message.circletimer.zone_removed": "Круг #%1$s удален. Забег сброшен.",
+  "message.circletimer.help.header": "Команды %1$s:",
+  "message.circletimer.help.create": "/%1$s <x1> <y1> <z1> <x2> <y2> <z2> - создать трассу",
+  "message.circletimer.help.points": "/%1$s pos1, /%1$s pos2, /%1$s create - создать трассу по 2 точкам",
+  "message.circletimer.help.set": "/%1$s set <id> - выбрать трассу",
+  "message.circletimer.help.target": "/%1$s target <count> - задать число кругов",
+  "message.circletimer.help.run": "/%1$s run reset|stop|status - управление таймером",
+  "message.circletimer.help.list": "/%1$s list, /%1$s remove <id> - список и удаление трасс",
   "message.circletimer.target_show": "Цель кругов для финиша: %1$s",
   "message.circletimer.target_set": "Цель кругов установлена: %1$s",
   "message.circletimer.start_missing": "Трасса не выбрана.",
   "message.circletimer.start_show": "Трасса: #%1$s (подсветка 10с)",
-  "message.circletimer.start_set": "Трасса установлена: #%1$s. Забег сброшен.",
+  "message.circletimer.start_set": "Трасса установлена: #%1$s.",
+  "message.circletimer.reset_required": "Гонка завершена. Для сброса таймера пропишите: /lap run reset",
   "message.circletimer.run_reset": "Состояние забега сброшено.",
   "message.circletimer.run_stopped": "Таймер остановлен."
 }

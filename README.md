@@ -1,69 +1,54 @@
-﻿# Circle Timer (Fabric, 1.21.8)
+# Race Timers (Fabric, 1.21-1.21.11)
 
-Клиентский мод для Minecraft, который считает время полёта внутри заданной зоны.
+Client-side race timer mod for Minecraft. Works for elytra, boats, horses, and other route-based runs.
 
-## Возможности
+## Features
 
-- Создание прямоугольных зон по 2 точкам через команду.
-- Выбор активной зоны.
-- Таймеры в HUD:
-  - `общ` — суммарное время полётов в зоне.
-  - `луч` — лучший (самый длинный) полёт.
-  - `тек` — текущий полёт.
-- Настройка HUD через AlinLib (позиция, масштаб, цвета, видимость).
-- Сохранение данных по мирам/серверам (раздельно).
+- Create track zones from two points.
+- Select the active track used as the lap trigger.
+- HUD with `total`, `best`, and `current` lap times.
+- Shared HUD settings across all worlds.
+- Per-world track and stats storage.
+- Mod Menu config screen powered by AlinLib.
 
-## Команды
+## Commands
 
-- `/circle x1 y1 z1 x2 y2 z2` — создать зону.
-- `/circle list` — список зон.
-- `/circle target` — показать текущий лимит кругов.
-- `/circle target <count>` — задать лимит общего количества кругов (`0` = без лимита).
-- `/circle select <id>` — выбрать активную зону.
-- `/circle remove <id>` — удалить зону.
-- `/circle reset` — сбросить статистику активной зоны.
-- `/circle reset active` — то же самое.
-- `/circle reset <id>` — сбросить статистику зоны по id.
-- `/circle hud show` — показать HUD.
-- `/circle hud hide` — скрыть HUD.
-- `/circle hud settings` — открыть экран настроек HUD.
+- `/lap help`
+- `/lap <x1> <y1> <z1> <x2> <y2> <z2>`
+- `/lap pos1`
+- `/lap pos2`
+- `/lap create`
+- `/lap list`
+- `/lap set <id>`
+- `/lap target <count>`
+- `/lap remove <id>`
+- `/lap run reset`
+- `/lap run stop`
+- `/lap run status`
 
-## Как считается полёт
+Legacy alias:
 
-Таймер идёт, когда:
+- `/circle ...`
 
-- игрок находится внутри активной зоны;
-- игрок находится в воздухе (`!isOnGround()`).
-
-При завершении сегмента полёта обновляется `луч`, `тек` сбрасывается, `общ` накапливается.
-
-## Сборка
-
-```bash
-./gradlew build
-```
-
-На Windows:
+## Build
 
 ```powershell
 .\gradlew.bat build
 ```
 
-## Запуск клиента для проверки
+## Test Client
 
 ```powershell
 .\gradlew.bat runClient
 ```
 
-## Где лежат данные
-
-Файл конфигурации:
+## Data File
 
 `config/circletimer/circle_timer_data.json`
 
-## Требования
+## Requirements
 
-- Minecraft `1.21.8`
+- Minecraft `1.21` - `1.21.11`
 - Fabric Loader `0.18.2+`
 - Fabric API `0.133.4+1.21.8`
 - AlinLib `2.1.0-rc.5`

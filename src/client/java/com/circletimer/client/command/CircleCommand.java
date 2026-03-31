@@ -34,8 +34,16 @@ public final class CircleCommand {
         ZoneManager zoneManager,
         FlightTimerService timerService
     ) {
-        dispatcher.register(
-            ClientCommandManager.literal("circle")
+        dispatcher.register(buildRootCommand("lap", zoneManager, timerService));
+        dispatcher.register(buildRootCommand("circle", zoneManager, timerService));
+    }
+
+    private static com.mojang.brigadier.builder.LiteralArgumentBuilder<FabricClientCommandSource> buildRootCommand(
+        String root,
+        ZoneManager zoneManager,
+        FlightTimerService timerService
+    ) {
+        return ClientCommandManager.literal(root)
                 .then(ClientCommandManager.argument("x1", StringArgumentType.word())
                     .then(ClientCommandManager.argument("y1", StringArgumentType.word())
                         .then(ClientCommandManager.argument("z1", StringArgumentType.word())
@@ -71,6 +79,7 @@ public final class CircleCommand {
                 )
                 .then(ClientCommandManager.literal("create").executes(ctx -> createFromSelected(ctx, zoneManager, timerService)))
                 .then(ClientCommandManager.literal("list").executes(ctx -> listZones(ctx, zoneManager)))
+                .then(ClientCommandManager.literal("help").executes(ctx -> showHelp(ctx, root)))
                 .then(ClientCommandManager.literal("target")
                     .executes(ctx -> showTarget(ctx, zoneManager))
                     .then(ClientCommandManager.argument("count", IntegerArgumentType.integer(1))
@@ -93,7 +102,7 @@ public final class CircleCommand {
                     .then(ClientCommandManager.literal("stop").executes(ctx -> stopRun(ctx, timerService)))
                     .then(ClientCommandManager.literal("status").executes(ctx -> runStatus(ctx, timerService)))
                 )
-        );
+        ;
     }
 
     private static int createZoneFromArgs(
@@ -121,6 +130,17 @@ public final class CircleCommand {
             zoneManager.setPendingPos2(pos);
             ctx.getSource().sendFeedback(Text.translatable("message.circletimer.pos2_set", zoneManager.formatVec(pos)));
         }
+        return 1;
+    }
+
+    private static int showHelp(CommandContext<FabricClientCommandSource> ctx, String root) {
+        ctx.getSource().sendFeedback(Text.translatable("message.circletimer.help.header", root));
+        ctx.getSource().sendFeedback(Text.translatable("message.circletimer.help.create", root));
+        ctx.getSource().sendFeedback(Text.translatable("message.circletimer.help.points", root));
+        ctx.getSource().sendFeedback(Text.translatable("message.circletimer.help.set", root));
+        ctx.getSource().sendFeedback(Text.translatable("message.circletimer.help.target", root));
+        ctx.getSource().sendFeedback(Text.translatable("message.circletimer.help.run", root));
+        ctx.getSource().sendFeedback(Text.translatable("message.circletimer.help.list", root));
         return 1;
     }
 

@@ -4,6 +4,7 @@ import com.circletimer.client.state.ZoneData;
 import com.circletimer.client.util.TimeFormat;
 import com.circletimer.client.zone.ZoneManager;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.Entity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Util;
@@ -25,7 +26,6 @@ public class FlightTimerService {
     private int currentCheckpointFromZero = 0;
     private int lapsCompleted = 0;
     private long lastCrossMillis = 0L;
-    private boolean finishLocked = false;
 
     private boolean hasPosition = false;
     private double lastX;
@@ -64,9 +64,10 @@ public class FlightTimerService {
             return;
         }
 
-        double x = client.player.getX();
-        double y = client.player.getY();
-        double z = client.player.getZ();
+        Entity trackedEntity = resolveTrackedEntity(client);
+        double x = trackedEntity.getX();
+        double y = trackedEntity.getY();
+        double z = trackedEntity.getZ();
 
         boolean insideNow = startZone.contains(x, y, z);
         if (!hasPosition) {
@@ -104,6 +105,7 @@ public class FlightTimerService {
     }
 
     public void flushRunningSegment() {
+        // no-op
     }
 
     public void resetRun() {
@@ -115,7 +117,6 @@ public class FlightTimerService {
         currentCheckpointFromZero = 0;
         lapsCompleted = 0;
         lastCrossMillis = 0L;
-        finishLocked = false;
         hasPosition = false;
         wasInsideStart = false;
         zoneManager.setBestLapMillis(0L);
@@ -167,17 +168,12 @@ public class FlightTimerService {
         return runActive;
     }
 
-    public boolean isFinishLocked() {
-        return finishLocked;
-    }
-
     public String getStateDebug() {
         return "run=" + runActive
             + ", total=" + TimeFormat.format(totalMillis)
             + ", current=" + TimeFormat.format(currentLapMillis)
             + ", lap=" + currentCheckpointFromZero + "/" + zoneManager.getTargetLapCount()
-            + ", done=" + lapsCompleted
-            + ", locked=" + finishLocked;
+            + ", done=" + lapsCompleted;
     }
 
     private ZoneData resolveStartZone(List<ZoneData> zones) {
@@ -194,17 +190,23 @@ public class FlightTimerService {
         return zoneManager.getZoneById(fallback).orElse(null);
     }
 
+    private static Entity resolveTrackedEntity(MinecraftClient client) {
+        Entity vehicle = client.player.getRootVehicle();
+        if (vehicle != null && vehicle != client.player) {
+            return vehicle;
+        }
+        return client.player;
+    }
+
     private void onStartCircleCross(long now) {
         if (!runActive) {
-            if (finishLocked) {
-                return;
-            }
             runActive = true;
             runStartMillis = now;
             lapStartMillis = now;
             totalMillis = 0L;
             currentLapMillis = 0L;
             currentCheckpointFromZero = 0;
+            lapsCompleted = 0;
             zoneManager.setBestLapMillis(0L);
             return;
         }
@@ -219,7 +221,6 @@ public class FlightTimerService {
         if (currentCheckpointFromZero >= zoneManager.getTargetLapCount()) {
             runActive = false;
             totalMillis = Math.max(0L, now - runStartMillis);
-            finishLocked = true;
         }
     }
 
@@ -290,12 +291,14 @@ public class FlightTimerService {
         tMin = tx[0];
         tMax = tx[1];
 
-        double[] ty = clipAxis(y0, y1, minY, maxY, tMin, tMax);
-        if (ty == null) {
-            return false;
+        if (!zone.isFlatTrigger()) {
+            double[] ty = clipAxis(y0, y1, minY, maxY, tMin, tMax);
+            if (ty == null) {
+                return false;
+            }
+            tMin = ty[0];
+            tMax = ty[1];
         }
-        tMin = ty[0];
-        tMax = ty[1];
 
         double[] tz = clipAxis(z0, z1, minZ, maxZ, tMin, tMax);
         if (tz == null) {
